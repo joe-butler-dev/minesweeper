@@ -60,6 +60,9 @@ var board = {
 }
 
 function startGame () {
+  for (i = 0; i <= board.cells[i]; i++) {
+    return board.cells[i].surroundingMines = countSurroundingMines(cell);
+  }
   // Don't remove this function call: it makes the game work!
   lib.initBoard()
 }
