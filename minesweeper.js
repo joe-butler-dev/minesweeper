@@ -118,9 +118,12 @@ function startGame () {
   lib.initBoard()
 }
 
-/* Function to check for a win condition:
-1. All cells that are not mines are visible, or;
-2. All mines are marked
+/* Function to check for a win condition -- if all non-mine cells are revealed.
+
+Old logic (from the course material is):
+
+1. All cells that are not mines are revealed, or;
+2. All mines are marked and all cells are revealed
 
 For reference, a "cell" here is a non-mine cell and a mine is a mine cell */
 
@@ -134,20 +137,20 @@ function checkForWin () {
 
     let cellBeingChecked = board.cells[k];
     
-    if (cellBeingChecked.isMine == true && cellBeingChecked.isMarked != true) {
-      countUnmarkedMines++;
-    }
+//    if (cellBeingChecked.isMine == true && cellBeingChecked.isMarked != true) {
+//      countUnmarkedMines++;
+//    }
 
     if (cellBeingChecked.isMine != true && cellBeingChecked.hidden == true) {
       countHiddenCells++;
     }
 
-    if (cellBeingChecked.isMine != true && cellBeingChecked.isMarked == true) {
-      countMarkedCells++;
-    }
+//    if (cellBeingChecked.isMine != true && cellBeingChecked.isMarked == true) {
+//      countMarkedCells++;
+//    }
   }
 
-  if ((countUnmarkedMines == 0 && countMarkedCells == 0) || countHiddenCells == 0) {
+  if (countHiddenCells == 0) {
     lib.displayMessage('You win!')
   } else {
     return;
