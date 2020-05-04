@@ -12,7 +12,7 @@ let board = {
     {
       row: 0,
       col: 1,
-      isMine: true,
+      isMine: false,
       hidden: true
     },
     {
@@ -22,6 +22,12 @@ let board = {
       hidden: true
     },
     {
+      row: 0,
+      col: 3,
+      isMine: false,
+      hidden: true
+    },
+    {
       row: 1,
       col: 0,
       isMine: false,
@@ -36,25 +42,61 @@ let board = {
     {
       row: 1,
       col: 2,
-      isMine: false,
+      isMine: true,
+      hidden: true
+    },
+    {
+      row: 1,
+      col: 3,
+      isMine: true,
       hidden: true
     },
     {
       row: 2,
       col: 0,
-      isMine: false,
+      isMine: true,
       hidden: true
     },
     {
       row: 2,
       col: 1,
-      isMine: true,
+      isMine: false,
       hidden: true
     },
     {
       row: 2,
       col: 2,
+      isMine: false,
+      hidden: true
+    },
+    {
+      row: 2,
+      col: 3,
+      isMine: false,
+      hidden: true
+    },
+    {
+      row: 3,
+      col: 0,
+      isMine: false,
+      hidden: true
+    },
+    {
+      row: 3,
+      col: 1,
       isMine: true,
+      hidden: true
+    },
+    {
+      row: 3,
+      col: 2,
+      isMine: false,
+      hidden: true
+    },
+    {
+      row: 3,
+      col: 3,
+      isMine: false,
       hidden: true
     }]
 }
@@ -78,10 +120,14 @@ function startGame () {
 
 /* Function to check for a win condition:
 1. All cells that are not mines are visible, or;
-2. All mines are marked*/
+2. All mines are marked
+
+For reference, a "cell" here is a non-mine cell and a mine is a mine cell */
+
 function checkForWin () {
 
   let countUnmarkedMines = 0;
+  let countMarkedCells = 0;
   let countHiddenCells = 0;
 
   for (k = 0; k < board.cells.length; k++) {
@@ -95,9 +141,13 @@ function checkForWin () {
     if (cellBeingChecked.isMine != true && cellBeingChecked.hidden == true) {
       countHiddenCells++;
     }
+
+    if (cellBeingChecked.isMine != true && cellBeingChecked.isMarked == true) {
+      countMarkedCells++;
+    }
   }
 
-  if (countUnmarkedMines == 0 || countHiddenCells == 0) {
+  if ((countUnmarkedMines == 0 && countMarkedCells == 0) || countHiddenCells == 0) {
     lib.displayMessage('You win!')
   } else {
     return;
