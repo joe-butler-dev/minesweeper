@@ -1,11 +1,6 @@
 document.addEventListener('DOMContentLoaded', startGame)
 
-var boardSize = 3;
-//var boardSizeEasy = 3;
-//var boardSizeMedium = 4;
-//var boardSizeHard = 6;
-var chanceOfMine = 0.25;
-
+var boardSize = 6;
 var board = {cells: []}
 
 function createBoard() {
