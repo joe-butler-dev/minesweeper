@@ -1,108 +1,43 @@
 document.addEventListener('DOMContentLoaded', startGame)
 
-// Create the board
-let board = {
-  cells: [
-    {
-      row: 0,
-      col: 0,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 0,
-      col: 1,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 0,
-      col: 2,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 0,
-      col: 3,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 1,
-      col: 0,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 1,
-      col: 1,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 1,
-      col: 2,
-      isMine: true,
-      hidden: true
-    },
-    {
-      row: 1,
-      col: 3,
-      isMine: true,
-      hidden: true
-    },
-    {
-      row: 2,
-      col: 0,
-      isMine: true,
-      hidden: true
-    },
-    {
-      row: 2,
-      col: 1,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 2,
-      col: 2,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 2,
-      col: 3,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 3,
-      col: 0,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 3,
-      col: 1,
-      isMine: true,
-      hidden: true
-    },
-    {
-      row: 3,
-      col: 2,
-      isMine: false,
-      hidden: true
-    },
-    {
-      row: 3,
-      col: 3,
-      isMine: false,
-      hidden: true
-    }]
+var boardSize = 3;
+//var boardSizeEasy = 3;
+//var boardSizeMedium = 4;
+//var boardSizeHard = 6;
+var chanceOfMine = 0.25;
+
+var board = {cells: []}
+
+function createBoard() {
+  for (i = 0; i < boardSize; i++) {
+    for (j = 0; j < boardSize; j++) {
+      let tileX = i;
+      let tileY = j;
+      let mineChance = generateMine();
+
+      let newCell = {
+        col: tileX,
+        row: tileY,
+        hidden: true,
+        isMine: mineChance
+      }
+      board.cells.push(newCell);
+    }
+  }
+}
+
+function generateMine() {
+  let chance = Math.random();
+  if (chance <= 0.25) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 // Function to set up the game
 function startGame () {
+  createBoard();
 
   // For each cell, determine the number of surrounding cells that are mines to display as hints
   for (i = 0; i < board.cells.length; i++) {
