@@ -1,7 +1,34 @@
 document.addEventListener('DOMContentLoaded', startGame)
 
-var boardSize = 6;
+var boardSize = null;
 var board = {cells: []}
+
+
+
+function startGame() {
+  changeDifficultyButtonVisibility("block")
+  lib.displayMessage('Choose your difficulty')
+
+  document.getElementById('easy').addEventListener('click', changeDifficulty)
+  document.getElementById('medium').addEventListener('click', changeDifficulty)
+  document.getElementById('hard').addEventListener('click', changeDifficulty)
+}
+
+function changeDifficulty() {
+  if (this.id === 'easy') {
+    boardSize = 4;
+  } else if (this.id === 'medium') {
+    boardSize = 5;
+  } else if (this.id === 'hard') {
+    boardSize = 6;
+  }
+
+  let buttons = document.getElementById("difficultyButtons");
+  buttons.style.display = "none";
+
+  createBoard()
+  playGame();
+}
 
 function createBoard() {
   for (i = 0; i < boardSize; i++) {
@@ -23,7 +50,7 @@ function createBoard() {
 
 function generateMine() {
   let chance = Math.random();
-  if (chance <= 0.25) {
+  if (chance <= 0.1) {
     return true;
   } else {
     return false;
@@ -31,8 +58,7 @@ function generateMine() {
 }
 
 // Function to set up the game
-function startGame () {
-  createBoard();
+function playGame () {
 
   // For each cell, determine the number of surrounding cells that are mines to display as hints
   for (i = 0; i < board.cells.length; i++) {
@@ -87,8 +113,7 @@ function checkForWin () {
   }
 }
 
-/* Function to determine which of the surrounding cells are mines.
-It uses the lib.getSurroundingCells function that was already defined */
+// Determine which of the surrounding cells are mines
 function countSurroundingMines(cell) {
   let surroundingCells = lib.getSurroundingCells(cell.row, cell.col);
   let mineCount = 0;
@@ -100,4 +125,15 @@ function countSurroundingMines(cell) {
     }
   }
   return mineCount;
+}
+
+// Show or hide buttons depending on state given
+function changeDifficultyButtonVisibility(state) {
+  var difficultyButtons = document.getElementById('difficultyButtons');
+  difficultyButtons.style.display = state
+}
+
+function changeResetButtonVisibility(state) {
+  var resetButton = document.getElementById('reset');
+  resetButton.style.display = state
 }
