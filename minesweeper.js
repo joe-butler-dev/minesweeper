@@ -1,4 +1,7 @@
-document.addEventListener('DOMContentLoaded', startGame)
+document.addEventListener('DOMContentLoaded', startGame);
+
+var winSound = new Audio('./sounds/sonic-win.wav');
+var loseSound = new Audio('./sounds/sonic-lose.wav');
 
 var boardSize = 4;
 var board = {cells: []}
@@ -85,6 +88,7 @@ function checkForWin () {
 
   if (countHiddenCells == 0) {
     lib.displayMessage('You win!')
+    winSound.play();
   } else {
     return;
   }
