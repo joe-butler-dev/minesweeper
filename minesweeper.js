@@ -1,18 +1,7 @@
-document.addEventListener('DOMContentLoaded', startGame)
+document.addEventListener('DOMContentLoaded', playGame)
 
 var boardSize = null;
 var board = {cells: []}
-
-
-
-function startGame() {
-  changeDifficultyButtonVisibility("block")
-  lib.displayMessage('Choose your difficulty')
-
-  document.getElementById('easy').addEventListener('click', changeDifficulty)
-  document.getElementById('medium').addEventListener('click', changeDifficulty)
-  document.getElementById('hard').addEventListener('click', changeDifficulty)
-}
 
 function changeDifficulty() {
   if (this.id === 'easy') {
@@ -22,12 +11,6 @@ function changeDifficulty() {
   } else if (this.id === 'hard') {
     boardSize = 6;
   }
-
-  let buttons = document.getElementById("difficultyButtons");
-  buttons.style.display = "none";
-
-  createBoard()
-  playGame();
 }
 
 function createBoard() {
@@ -59,6 +42,7 @@ function generateMine() {
 
 // Function to set up the game
 function playGame () {
+  createBoard()
 
   // For each cell, determine the number of surrounding cells that are mines to display as hints
   for (i = 0; i < board.cells.length; i++) {
@@ -70,17 +54,16 @@ function playGame () {
   document.addEventListener("click", checkForWin);
   document.addEventListener("contextmenu", checkForWin);
 
+  // Check for a board reset
+  document.getElementById('easy').addEventListener('click', changeDifficulty);
+  document.getElementById('medium').addEventListener('click', changeDifficulty);
+  document.getElementById('hard').addEventListener('click', changeDifficulty);
+  
   // Don't remove this function call: it makes the game work!
   lib.initBoard()
 }
 
 /* Function to check for a win condition -- if all non-mine cells are revealed.
-
-Old logic (from the course material is):
-
-1. All cells that are not mines are revealed, or;
-2. All mines are marked and all cells are revealed
-
 For reference, a "cell" here is a non-mine cell and a mine is a mine cell */
 
 function checkForWin () {
@@ -92,18 +75,10 @@ function checkForWin () {
   for (k = 0; k < board.cells.length; k++) {
 
     let cellBeingChecked = board.cells[k];
-    
-//    if (cellBeingChecked.isMine == true && cellBeingChecked.isMarked != true) {
-//      countUnmarkedMines++;
-//    }
 
     if (cellBeingChecked.isMine != true && cellBeingChecked.hidden == true) {
       countHiddenCells++;
     }
-
-//    if (cellBeingChecked.isMine != true && cellBeingChecked.isMarked == true) {
-//      countMarkedCells++;
-//    }
   }
 
   if (countHiddenCells == 0) {
@@ -125,15 +100,4 @@ function countSurroundingMines(cell) {
     }
   }
   return mineCount;
-}
-
-// Show or hide buttons depending on state given
-function changeDifficultyButtonVisibility(state) {
-  var difficultyButtons = document.getElementById('difficultyButtons');
-  difficultyButtons.style.display = state
-}
-
-function changeResetButtonVisibility(state) {
-  var resetButton = document.getElementById('reset');
-  resetButton.style.display = state
 }
